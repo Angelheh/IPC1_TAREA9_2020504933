@@ -1,0 +1,97 @@
+ANÁLISIS - TAREA 9
+IPC1 - Universidad San Carlos de Guatemala
+==========================================
+
+PREGUNTA 1 (5 pts)
+------------------
+¿Cuál es la complejidad Big-O de insertarOrdenado?
+
+La complejidad de insertarOrdenado es O(n).
+
+Justificación:
+El método recorre la lista desde el head buscando la posición correcta
+donde insertar el nuevo nodo según su nota. En el peor caso, el nuevo
+nodo tiene la nota más alta de la lista, por lo que el recorrido llega
+hasta el último nodo (tail). Esto significa que se visitan n nodos,
+lo cual produce una complejidad lineal O(n).
+
+Las comparaciones para los casos borde (lista vacía, insertar al inicio
+o al final) son O(1), pero no cambian la complejidad general porque
+el caso dominante sigue siendo O(n).
+
+
+PREGUNTA 2 (5 pts)
+------------------
+Para cada operación: ¿Array o Lista Enlazada?
+
+a) Buscar al estudiante con carnet 202300001
+   Respuesta: Ninguna tiene ventaja clara si los datos no están ordenados
+   por carnet. Ambas requieren O(n) en búsqueda lineal.
+   Sin embargo, si se usa un Array ORDENADO por carnet, se puede aplicar
+   búsqueda binaria con complejidad O(log n), lo que lo hace más eficiente.
+   Ventaja: ARRAY (si está ordenado por carnet).
+
+b) Agregar 500 estudiantes nuevos al inicio del registro
+   En un Array, insertar al inicio obliga a desplazar todos los elementos
+   existentes una posición a la derecha, lo que cuesta O(n) por cada
+   inserción. Para 500 inserciones sería O(500*n).
+   En una Lista Enlazada, insertar al inicio es siempre O(1) porque solo
+   se actualiza el puntero head.
+   Ventaja: LISTA ENLAZADA.
+
+c) Acceder directamente al 3er estudiante de la lista
+   Un Array permite acceso directo por índice: lista[2] → O(1).
+   Una Lista Enlazada no tiene índices; para llegar al 3er nodo hay que
+   recorrer desde el head: head → nodo1 → nodo2 → O(n).
+   Ventaja: ARRAY.
+
+
+PREGUNTA 3 (10 pts)
+-------------------
+Diagrama del Heap tras ejecutar:
+
+  ListaEstudiantes lista = new ListaEstudiantes();
+  lista.agregarInicio("202300001", "Ana",   85.0);
+  lista.agregarInicio("202300002", "Luis",  90.0);
+  lista.agregarFinal ("202300003", "María", 78.0);
+  lista.eliminarPorCarnet("202300001");
+
+Paso 1 - agregarInicio("202300001", "Ana", 85.0):
+  head -> [carnet=202300001 | nombre=Ana | nota=85.0 | next=null]
+
+Paso 2 - agregarInicio("202300002", "Luis", 90.0):
+  head -> [carnet=202300002 | nombre=Luis | nota=90.0 | next=*]
+                                                               |
+                                                               v
+                          [carnet=202300001 | nombre=Ana | nota=85.0 | next=null]
+
+Paso 3 - agregarFinal("202300003", "María", 78.0):
+  head -> [202300002 | Luis  | 90.0 | next=*]
+                                          |
+                                          v
+                      [202300001 | Ana   | 85.0 | next=*]
+                                                      |
+                                                      v
+                               [202300003 | María | 78.0 | next=null]
+
+Paso 4 - eliminarPorCarnet("202300001"):
+  El nodo de Ana (202300001) es eliminado.
+  El nodo de Luis actualiza su next para saltar directamente a María.
+
+  Estado FINAL del Heap:
+
+  head
+   |
+   v
++-------------------------------+     +-------------------------------+
+| carnet : 202300002            |     | carnet : 202300003            |
+| nombre : Luis                 |---->| nombre : María                |
+| nota   : 90.0                 |     | nota   : 78.0                 |
+| next   : ref a nodo María     |     | next   : null                 |
++-------------------------------+     +-------------------------------+
+
+- head apunta al nodo de Luis (202300002).
+- El nodo de Luis apunta al nodo de María (202300003).
+- El nodo de María apunta a null (es el último).
+- El nodo de Ana (202300001) ya no es referenciado por nadie
+  y el Garbage Collector de Java lo eliminará de la memoria.
