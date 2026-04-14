@@ -7,14 +7,12 @@ public class ListaEstudiantes {
         this.head = null;
     }
 
-    // Inserta al inicio de la lista
     public void agregarInicio(String carnet, String nombre, double nota) {
         NodoEstudiante nuevo = new NodoEstudiante(carnet, nombre, nota);
         nuevo.siguiente = head;
         head = nuevo;
     }
 
-    // Inserta al final de la lista
     public void agregarFinal(String carnet, String nombre, double nota) {
         NodoEstudiante nuevo = new NodoEstudiante(carnet, nombre, nota);
         if (head == null) {
@@ -28,18 +26,15 @@ public class ListaEstudiantes {
         actual.siguiente = nuevo;
     }
 
-    // Elimina el nodo con ese carnet
     public void eliminarPorCarnet(String carnet) {
         if (head == null) {
-            System.out.println("Lista vacía.");
+            System.out.println("Lista vacia.");
             return;
         }
-        // Caso: el nodo a eliminar es el head
         if (head.carnet.equals(carnet)) {
             head = head.siguiente;
             return;
         }
-        // Buscar el nodo anterior al que se va a eliminar
         NodoEstudiante actual = head;
         while (actual.siguiente != null) {
             if (actual.siguiente.carnet.equals(carnet)) {
@@ -51,7 +46,6 @@ public class ListaEstudiantes {
         System.out.println("Carnet no encontrado: " + carnet);
     }
 
-    // Retorna el nodo o null si no existe
     public NodoEstudiante buscarPorCarnet(String carnet) {
         NodoEstudiante actual = head;
         while (actual != null) {
@@ -63,10 +57,9 @@ public class ListaEstudiantes {
         return null;
     }
 
-    // Imprime todos los estudiantes en orden
     public void imprimirLista() {
         if (head == null) {
-            System.out.println("Lista vacía.");
+            System.out.println("Lista vacia.");
             return;
         }
         NodoEstudiante actual = head;
@@ -78,7 +71,6 @@ public class ListaEstudiantes {
         }
     }
 
-    // Retorna el promedio de notas
     public double obtenerPromedio() {
         if (head == null) return 0.0;
         double suma = 0;
@@ -92,7 +84,6 @@ public class ListaEstudiantes {
         return suma / cantidad;
     }
 
-    // Retorna el estudiante con mayor nota
     public NodoEstudiante obtenerMejorNota() {
         if (head == null) return null;
         NodoEstudiante mejor = head;
